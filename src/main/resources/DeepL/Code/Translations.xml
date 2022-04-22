@@ -1,0 +1,93 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.4" reference="DeepL.Code.Translations" locale="">
+  <web>DeepL.Code</web>
+  <name>Translations</name>
+  <language/>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <parent>WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <version>1.1</version>
+  <title/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>plain/1.0</syntaxId>
+  <hidden>true</hidden>
+  <content>rendering.macro.deeplTranslation.name=DeepL Translation
+rendering.macro.deeplTranslation.description=Add a link ir onder to translate a specific content using DeepL.
+rendering.macro.deeplTranslation.parameter.cssSelector.name=CSS Selector
+rendering.macro.deeplTranslation.parameter.cssSelector.description=Indicate which CSS block should be translated.
+rendering.macro.deeplTranslation.parameter.classSelector.name=Class Selector
+rendering.macro.deeplTranslation.parameter.classSelector.description=Allows to only display the translation link if the current page has at least one object of the class specified in classSelector. If the parameter is empty, no restriction gets applied.
+
+deeplTranslation.link.text=Translate in {0}
+
+deeplTranslation.service.insufficientParameters=Insufficient parameters provided to the translation service.
+deeplTranslation.service.api.invalidResponse=Invalid API response from DeepL.
+deeplTranslation.service.api.quotaExceeded=Quota exceeded.
+deeplTranslation.service.api.missingConfiguration=Missing DeepL configuration.
+
+deeplTranslation.notification.translationInProgress=Translating content …
+deeplTranslation.notification.translationFailed=Failed to translate content
+deeplTranslation.notification.alreadyTranslated=Content already translated</content>
+  <object>
+    <name>DeepL.Code.Translations</name>
+    <number>0</number>
+    <className>XWiki.TranslationDocumentClass</className>
+    <guid>c30c0e5e-1490-45fa-9574-a2da9c69e060</guid>
+    <class>
+      <name>XWiki.TranslationDocumentClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <scope>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <freeText>forbidden</freeText>
+        <largeStorage>0</largeStorage>
+        <multiSelect>0</multiSelect>
+        <name>scope</name>
+        <number>1</number>
+        <prettyName>Scope</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>GLOBAL|WIKI|USER|ON_DEMAND</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </scope>
+    </class>
+    <property>
+      <scope>WIKI</scope>
+    </property>
+  </object>
+</xwikidoc>
