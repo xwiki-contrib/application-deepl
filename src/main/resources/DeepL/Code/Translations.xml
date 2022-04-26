@@ -42,6 +42,8 @@ rendering.macro.deeplTranslation.parameter.cssSelector.name=CSS Selector
 rendering.macro.deeplTranslation.parameter.cssSelector.description=Indicate which CSS block should be translated.
 rendering.macro.deeplTranslation.parameter.classSelector.name=Class Selector
 rendering.macro.deeplTranslation.parameter.classSelector.description=Allows to only display the translation link if the current page has at least one object of the class specified in classSelector. If the parameter is empty, no restriction gets applied.
+rendering.macro.deeplTranslation.parameter.extraCssClasses.name=Extra CSS classes
+rendering.macro.deeplTranslation.parameter.extraCssClasses.description=Additional CSS classes to be added to the translation link.
 
 deeplTranslation.link.text=Translate in {0}
 
@@ -52,7 +54,11 @@ deeplTranslation.service.api.missingConfiguration=Missing DeepL configuration.
 
 deeplTranslation.notification.translationInProgress=Translating content …
 deeplTranslation.notification.translationFailed=Failed to translate content
-deeplTranslation.notification.alreadyTranslated=Content already translated</content>
+deeplTranslation.notification.alreadyTranslated=Content already translated
+
+admin.deepl=DeepL
+
+DeepL.Code.DeepLConfigurationClass_translateComments=Translate comments</content>
   <object>
     <name>DeepL.Code.Translations</name>
     <number>0</number>

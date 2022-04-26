@@ -43,6 +43,7 @@
 |=Parameter|=Mandatory|=Description|=Default value
 |##cssSelector##|Yes|{{velocity}}$services.localization.render('rendering.macro.deeplTranslation.parameter.cssSelector.description'){{/velocity}}|//N/A//
 |##classSelector##|No|{{velocity}}$services.localization.render('rendering.macro.deeplTranslation.parameter.classSelector.description'){{/velocity}}|//N/A//
+|##extraCssClasses##|No|{{velocity}}$services.localization.render('rendering.macro.deeplTranslation.parameter.classSelector.description'){{/velocity}}|//N/A//
 
 **Example**
 
@@ -264,7 +265,7 @@ This is a text in english. If you access this page with the wiki configured in a
   $xwiki.jsx.use('DeepL.Code.DeepLTranslationJSX')
   {{html clean="false"}}
     &lt;a href="#"
-       class="deeplTranslationToggle"
+       class="deeplTranslationToggle $!{escapetool.xml($wikimacro.parameters.extraCssClasses)}"
        data-cssSelector="$!{escapetool.xml($wikimacro.parameters.cssSelector)}"
        data-classSelector="$!{escapetool.xml($wikimacro.parameters.classSelector)}"
        data-formToken="$!{escapetool.xml($services.csrf.token)}"
@@ -457,6 +458,84 @@ This is a text in english. If you access this page with the wiki configured in a
     </property>
     <property>
       <name>cssSelector</name>
+    </property>
+    <property>
+      <type>java.lang.String</type>
+    </property>
+  </object>
+  <object>
+    <name>DeepL.Code.DeepLTranslationMacro</name>
+    <number>2</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>a8e459e3-cad1-43ec-a63d-0f62699de863</guid>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <type>
+        <disabled>0</disabled>
+        <name>type</name>
+        <number>5</number>
+        <prettyName>Parameter type</prettyName>
+        <size>60</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </type>
+    </class>
+    <property>
+      <defaultValue/>
+    </property>
+    <property>
+      <description/>
+    </property>
+    <property>
+      <mandatory>0</mandatory>
+    </property>
+    <property>
+      <name>extraCssClasses</name>
     </property>
     <property>
       <type>java.lang.String</type>

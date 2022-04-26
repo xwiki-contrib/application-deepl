@@ -142,8 +142,9 @@
     }
 
     initTranslationLinks() {
+      let api = this;
       $('.deeplTranslationToggle').each(function(index, value) {
-        registerTranslationLink($(value));
+        api.registerTranslationLink($(value));
       });
     }
 
