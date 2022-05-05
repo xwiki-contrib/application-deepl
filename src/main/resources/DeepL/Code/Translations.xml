@@ -51,6 +51,7 @@ deeplTranslation.service.insufficientParameters=Insufficient parameters provided
 deeplTranslation.service.api.invalidResponse=Invalid API response from DeepL.
 deeplTranslation.service.api.quotaExceeded=Quota exceeded.
 deeplTranslation.service.api.missingConfiguration=Missing DeepL configuration.
+deeplTranslation.service.api.unsupportedLanguage=Translation not supported in this language.
 
 deeplTranslation.notification.translationInProgress=Translating content …
 deeplTranslation.notification.translationFailed=Failed to translate content

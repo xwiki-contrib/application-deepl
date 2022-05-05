@@ -42,6 +42,9 @@ import groovy.json.JsonSlurper;
 import groovy.json.JsonOutput;
 import java.net.URLEncoder;
 
+logger = services.logging.getLogger(doc.fullName);
+services.logging.setLevel(doc.fullName, org.xwiki.logging.LogLevel.INFO);
+
 def jsonResponse(payload) {
   def json = new JsonOutput().toJson(payload);
   response.setContentType('application/json');
@@ -52,11 +55,13 @@ def jsonResponse(payload) {
   xcontext.setFinished(true);
 }
 
-if (services.csrf.isTokenValid(request.form_token) &amp;&amp; StringUtils.isNotBlank(request.content) &amp;&amp; StringUtils.isNotBlank(request.target_locale)) {
-  def logger = services.logging.getLogger(doc.fullName);
-  def error = '';
-  services.logging.setLevel(doc.fullName, org.xwiki.logging.LogLevel.INFO);
+def errorResponse(message) {
+  def error = services.localization.render(message);
+  logger.error(error);
+  jsonResponse([success: 0, message: error]);
+}
 
+if (services.csrf.isTokenValid(request.form_token) &amp;&amp; StringUtils.isNotBlank(request.content) &amp;&amp; StringUtils.isNotBlank(request.target_locale)) {
   try {
     def xwikiPropertiesConfiguration = services.component.getContextComponentManager().getInstance(org.xwiki.configuration.ConfigurationSource.class, 'xwikiproperties');
 
@@ -81,18 +86,28 @@ if (services.csrf.isTokenValid(request.form_token) &amp;&amp; StringUtils.isNotB
         logger.info('Got content result [{}]', contentTranslationJSONResponse);
         jsonResponse([success: 1, content: contentTranslationJSONResponse['translations'][0]['text']]);
       } else if (contentTranslationConnection.getResponseCode() != 456) {
-        error = services.localization.render('deeplTranslation.service.api.quotaExceeded');
-        logger.error(error);
-        jsonResponse([success: 0, message: error]);
+        // In case we get response code 456, we'll need to check if this is due to a quota exceeded or an unsupported translation.
+        // As we cannot really check if the translation is supported or not (because we don't know the language of the text to translate,
+        // and thus we don't know if it is in the supported DeepL languages), we'll do the inverse strategy : we will check if the quota
+        // the account is exceeded, and if so, we'll display an error about the quota.
+        def quotaURL = apiDomain + '/v2/usage?auth_key=' + encodedApiKey;
+        def quotaConnection = quotaURL.toURL().openConnection();
+        if (quotaConnection.getResponseCode() == 200) {
+          def quotaResponse = quotaConnection.getInputStream().getText();
+          def quotaResponseJSON = new JsonSlurper().parseText(quotaResponse);
+          if (quotaResponseJSON['character_count'] &gt; quotaResponseJSON['character_limit']) {
+            errorResponse('deeplTranslation.service.api.quotaExceeded');
+          } else {
+            errorResponse('deeplTranslation.service.api.unsupportedLanguage');
+          }
+        } else {
+          errorResponse('deeplTranslation.service.api.invalidResponse');
+        }
       } else {
-        error = services.localization.render('deeplTranslation.service.api.invalidResponse');
-        logger.error(error);
-        jsonResponse([success: 0, message: error]);
+        errorResponse('deeplTranslation.service.api.invalidResponse');
       }
     } else {
-      error = services.localization.render('deeplTranslation.service.api.missingConfiguration');
-      logger.error(error);
-      jsonResponse([success: 0, message: error]);
+      errorResponse('deeplTranslation.service.api.missingConfiguration');
     }
   } catch (Exception e) {
     logger.error('Unhandled exception', e)
