@@ -259,7 +259,8 @@ This is a text in english. If you access this page with the wiki configured in a
       <code>{{velocity}}
 ## Check first if there is a restriction on the objects of the current document and if the document needs to be translated
 ## When the document locale is null, we need to rely on the default wiki locale
-#set($needsTranslation = $xcontext.locale.equals($doc.locale) || ("$!{doc.locale}" == '' &amp;&amp; !$xcontext.locale.equals($doc.defaultLocale)))
+## If the document has really no locale (i.e. all its locale attributes are null), then we should compare the current context locale with the default locale configured in the wiki administration.
+#set($needsTranslation = $xcontext.locale.equals($doc.realLocale) || ("$!{doc.realLocale}" == '' &amp;&amp; !$xcontext.locale.equals($services.localization.defaultLocale)))
 #set($hasObject = "$!{wikimacro.parameters.classSelector}" == '' || $doc.getObjects($wikimacro.parameters.classSelector).size() &gt; 0)
 #if ($hasObject &amp;&amp; $needsTranslation)
   $xwiki.jsx.use('DeepL.Code.DeepLTranslationJSX')
@@ -270,7 +271,7 @@ This is a text in english. If you access this page with the wiki configured in a
        data-classSelector="$!{escapetool.xml($wikimacro.parameters.classSelector)}"
        data-formToken="$!{escapetool.xml($services.csrf.token)}"
        data-locale="$!{escapetool.xml($xcontext.locale)}"&gt;
-       $services.localization.render('deeplTranslation.link.text', [$xcontext.locale.getDisplayLanguage($xcontext.locale)])
+       $escapetool.xml($services.localization.render('deeplTranslation.link.text', [$xcontext.locale.getDisplayLanguage($xcontext.locale)]))
     &lt;/a&gt;
   {{/html}}
 #end
