@@ -67,17 +67,17 @@ if (services.csrf.isTokenValid(request.form_token) &amp;&amp; StringUtils.isNotB
 
     // Load the API key and the base URL
     def apiKey = xwikiPropertiesConfiguration.getProperty('deepl.api.key', StringUtils.EMPTY);
-    def encodedApiKey = URLEncoder.encode(apiKey, 'UTF-8');
     def apiDomain = xwikiPropertiesConfiguration.getProperty('deepl.api.domain', StringUtils.EMPTY);
 
     if (StringUtils.isNotBlank(apiKey) &amp;&amp; StringUtils.isNotBlank(apiDomain)) {
       def translationURL = apiDomain + '/v2/translate';
 
-      def contentFormString = "auth_key=" + encodedApiKey + "&amp;text=" + URLEncoder.encode(request.content, 'UTF-8') + "&amp;target_lang=" + URLEncoder.encode(request.target_locale) + "&amp;tag_handling=xml";
+      def contentFormString = "text=" + URLEncoder.encode(request.content, 'UTF-8') + "&amp;target_lang=" + URLEncoder.encode(request.target_locale) + "&amp;tag_handling=xml";
       def contentTranslationConnection = translationURL.toURL().openConnection();
       contentTranslationConnection.setRequestMethod('POST');
       contentTranslationConnection.setDoOutput(true);
       contentTranslationConnection.setRequestProperty('Content-Type', 'application/x-www-form-urlencoded');
+      contentTranslationConnection.setRequestProperty('Authorization', "DeepL-Auth-Key $apiKey");
       contentTranslationConnection.getOutputStream().write(contentFormString.getBytes("UTF-8"));
 
       if (contentTranslationConnection.getResponseCode() == 200) {
@@ -90,8 +90,9 @@ if (services.csrf.isTokenValid(request.form_token) &amp;&amp; StringUtils.isNotB
         // As we cannot really check if the translation is supported or not (because we don't know the language of the text to translate,
         // and thus we don't know if it is in the supported DeepL languages), we'll do the inverse strategy : we will check if the quota
         // the account is exceeded, and if so, we'll display an error about the quota.
-        def quotaURL = apiDomain + '/v2/usage?auth_key=' + encodedApiKey;
+        def quotaURL = apiDomain + '/v2/usage';
         def quotaConnection = quotaURL.toURL().openConnection();
+        quotaConnection.setRequestProperty('Authorization', "DeepL-Auth-Key $apiKey");
         if (quotaConnection.getResponseCode() == 200) {
           def quotaResponse = quotaConnection.getInputStream().getText();
           def quotaResponseJSON = new JsonSlurper().parseText(quotaResponse);
